@@ -1,12 +1,12 @@
 pipeline {
     agent { label 'TerraformLabel' }
      triggers {
-        pollSCM('* * * * *')
+        pollSCM('0 23 * * *')
     }
     stages{
         stage('VCS'){
             steps{
-                git branch:'develop', url:'https://github.com/mallojuashok/shopizer.git'
+                git branch:'release', url:'https://github.com/mallojuashok/shopizer.git'
             }
         }
         stage('build'){
