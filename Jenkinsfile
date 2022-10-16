@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'TerraformLabel' }
      triggers {
-        pollSCM('0 23 * * *')
+        pollSCM('30 5 * * *')
     }
     stages{
         stage('VCS'){
@@ -17,6 +17,11 @@ pipeline {
         stage('archive results'){
             steps{
                 junit '**/surefire-reports/*.xml'
+            }
+        }
+        stage('artifacts'){
+            steps{
+                archiveArtifacts artifacts: '**/target/*.jar'
             }
         }
         
