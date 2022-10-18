@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'TerraformLabel' }
      triggers {
-        pollSCM('30 5 * * *')
+        pollSCM(' * * * *')
     }
     stages{
         stage('VCS'){
