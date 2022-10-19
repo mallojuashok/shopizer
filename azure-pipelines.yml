@@ -10,7 +10,7 @@ stages:
    displayName: 'Build the Shopizer'
    pool: Mypool
    jobs:
-    - job: 'Build the Job'
+    - job: 'BuildtheJob'
       steps:
        - task: Maven@3
          inputs:
