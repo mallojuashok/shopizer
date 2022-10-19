@@ -1,0 +1,24 @@
+---
+schedules:
+- cron: "* * * * *"
+  displayName: Build For Every Commit
+  branches:
+    include:
+    - develop/*
+stages:
+ - stage: build
+   displayName: 'Build the Shopizer'
+   pool: Mypool
+   jobs:
+    - job: 'Build the Job'
+      steps:
+       - task: Maven@3
+         inputs:
+           mavenPomFile: 'pom.xml'
+           mavenOptions: '-Xmx1024m'
+           javaHomeOption: 'JDKVersion'
+           jdkVersionOption: '1.11'
+           publishJUnitResults: true 
+           testResultsFiles: '**/surefire-reports/TEST-*.xml'
+           goals: 'package'
+           
