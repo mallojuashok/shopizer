@@ -1,6 +1,6 @@
 ---
 schedules:
-- cron: "* * * * *"
+- cron: "10 * * * *"
   displayName: Build For Every Commit
   branches:
     include:
