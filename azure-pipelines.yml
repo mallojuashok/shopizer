@@ -1,8 +1,7 @@
 ---
 schedules:
-- cron: "10 * * * *"
-  displayName: Build For Every Commit
-  branches:
+- cron: "* * * * *"
+  displayName: Build
     include:
     - develop/*
 stages:
