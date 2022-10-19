@@ -7,7 +7,7 @@ schedules:
     - develop/*
 stages:
  - stage: build
-   displayName: 'Build the Shopizer'
+   displayName: 'BuildtheShopizer'
    pool: Mypool
    jobs:
     - job: 'BuildtheJob'
