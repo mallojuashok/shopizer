@@ -1,30 +1,47 @@
 pipeline {
-    agent { label 'TerraformLabel' }
-     triggers {
-        pollSCM(' * * * *')
+    agent { label 'MY-LABEL-UBUNTU' }
+    parameters {
+        string(name: 'MAVEN_GOAL', defaultValue: 'clean install', description: 'maven goal')
+
     }
     stages{
         stage('VCS'){
             steps{
-                git branch:'release', url:'https://github.com/mallojuashok/shopizer.git'
+                git branch: "Test", url: 'https://github.com/mallojuashok/shopizer.git'
             }
         }
-        stage('build'){
-            steps{
-                sh '/usr/share/maven/bin/mvn package'
+        stage ('Artifactory configuration') {
+            steps {
+                
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "My_Frog",
+                    releaseRepo: 'shzr-libs-release-local',
+                    snapshotRepo: 'shzr-libs-snapshot-local'
+                )
+
+
             }
         }
-        stage('archive results'){
-            steps{
-                junit '**/surefire-reports/*.xml'
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'MVN_DEFAULT', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER"
+                )
             }
         }
-        stage('artifacts'){
-            steps{
-                archiveArtifacts artifacts: '**/target/*.jar'
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "My_Frog"
+                )
             }
         }
-        
-    }
+
 
     }
+}
